@@ -1,0 +1,17 @@
+[MASTER]
+ignore=alembic,tests,.venv,venv,env
+jobs=1
+
+[MESSAGES CONTROL]
+disable=C0111,C0103,R0903,W0212,C0301,R0913,R0914,W0613,C0115,C0116
+
+[FORMAT]
+max-line-length=88
+
+[BASIC]
+good-names=i,j,k,db,_,id
+
+[DESIGN]
+max-attributes=10
+min-public-methods=0
+max-public-methods=20

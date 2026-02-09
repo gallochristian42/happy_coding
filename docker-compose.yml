@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: happy_coding_app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DATABASE_URL=postgresql://user:password@db:5432/dbname
+      # - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./src:/app/src
+    networks:
+      - app_network
+    depends_on:
+      - db
+      # - redis
+
+  db:
+    image: postgres:15-alpine
+    container_name: happy_coding_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=dbname
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    ports:
+      - "5432:5432"
+
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: happy_coding_redis
+  #   restart: unless-stopped
+  #   networks:
+  #     - app_network
+  #   ports:
+  #     - "6379:6379"
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
